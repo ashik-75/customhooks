@@ -1,17 +1,23 @@
+import { useRef } from "react";
 import { Button } from "./components/ui/button";
-import useBoolean from "./hooks/use-boolean";
+import useHover from "./hooks/use-hover";
+import useEventListener from "./hooks/use-eventlistener";
+import toast from "react-hot-toast";
 
 const App = () => {
-	const { setFalse, setTrue, setValue, toggle, value } = useBoolean();
+	const ref = useRef(null);
+	const isHover = useHover(ref);
+
+	useEventListener("click", (event) => {
+		console.log(event);
+		toast.success("Mouse Enter");
+	});
+
 	return (
 		<div className="bg-zinc-950  h-full ">
 			<div className="space-y-5 font-inter md:container text-zinc-100 bg-zinc-900 h-full">
 				<div>
-					<p>{value ? "YES" : "NO"}</p>
-					<Button onClick={toggle}>Press</Button>
-					<Button onClick={() => setValue(true)}>Set Value</Button>
-					<Button onClick={setTrue}>Set True</Button>
-					<Button onClick={setFalse}>Set False</Button>
+					<Button ref={ref}>Open - {isHover ? "YES" : "NO"}</Button>
 				</div>
 			</div>
 		</div>
