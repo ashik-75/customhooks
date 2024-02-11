@@ -4,8 +4,8 @@ import About from "./pages/about";
 
 const App = () => {
 	return (
-		<div className="bg-zinc-950  h-full ">
-			<div className="space-y-5 font-inter md:container text-zinc-100 bg-zinc-900 h-full">
+		<div className=" h-full ">
+			<div className="space-y-5 font-inter md:container   h-full">
 				<nav>
 					<Link to={"/"}>Home</Link>
 					<Link to={"/about"}>About</Link>
