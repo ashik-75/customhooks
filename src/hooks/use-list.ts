@@ -14,7 +14,7 @@ const useList = <T extends { id: number | string }>() => {
 	const removeAllFromList = useCallback(() => {
 		setList([]);
 	}, []);
-
+	1;
 	const updateItemToList = useCallback((id: number | string, element: T) => {
 		setList((prev) => prev.map((i) => (i.id === id ? element : i)));
 	}, []);
