@@ -5,9 +5,11 @@ import useList from "@/hooks/use-list";
 import { useState } from "react";
 import Item from "./item";
 import { ItemType } from "./type";
+import useLocalStorage from "@/hooks/use-localstorage";
 
 const About = () => {
 	const [input, setInput] = useState("");
+	const { value: storageValue } = useLocalStorage("snacks");
 
 	const value = useDebounce(input, 1000);
 
@@ -34,7 +36,7 @@ const About = () => {
 				onChange={(e) => setInput(e.target.value)}
 				value={input}
 			/>
-
+			<p>Storage Snacks: {storageValue}</p>
 			<p>Debounced Value: {value}</p>
 
 			<Button
