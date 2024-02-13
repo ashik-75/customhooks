@@ -1,47 +1,69 @@
 import { sleep } from "@/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 
-const useFetch = <T>({ url }: { url: string }) => {
-	const [isLoading, setIsLoading] = useState(false);
-	const [isError, setIsError] = useState(false);
-	const [error, setError] = useState<Error | undefined>(undefined);
-	const [data, setData] = useState<T | undefined>();
+type FetchState<T> = {
+	isLoading: boolean;
+	isError: boolean;
+	data: T | null;
+	error: Error | null;
+	refetch: () => void;
+};
 
-	const fetchData = useCallback(async () => {
-		try {
-			setIsLoading(true);
+const useFetch = <T>({ url }: { url: string }): FetchState<T> => {
+	const [state, setState] = useState<FetchState<T>>({
+		isError: false,
+		isLoading: false,
+		data: null,
+		error: null,
+		refetch: () => {},
+	});
 
-			const response = await fetch(url);
-			if (!response.ok) {
-				throw new Error(response.statusText);
+	const fetchData = useCallback(
+		async (ignoreCache: boolean = false) => {
+			try {
+				const cache = sessionStorage.getItem(url);
+				if (cache && !ignoreCache) {
+					setState((prev) => ({ ...prev, data: JSON.parse(cache) }));
+					return;
+				} else {
+					setState((prev) => ({ ...prev, isLoading: true }));
+
+					const response = await fetch(url);
+					if (!response.ok) {
+						throw new Error(response.statusText);
+					}
+
+					// no response error
+					const responseData = await response.json();
+					await sleep(1000);
+					sessionStorage.setItem(url, JSON.stringify(responseData));
+					setState((prev) => ({
+						...prev,
+						isLoading: false,
+						isError: false,
+						error: null,
+						data: responseData,
+						refetch: () => fetchData(true),
+					}));
+				}
+			} catch (error) {
+				setState((prev) => ({
+					...prev,
+					isError: true,
+					error: error as Error,
+					isLoading: false,
+					data: null,
+				}));
 			}
-
-			// no response error
-			const responseData = await response.json();
-			await sleep(1000);
-			setIsLoading(false);
-			setData(responseData);
-			setIsError(false);
-			setError(undefined);
-		} catch (error) {
-			setIsLoading(false);
-			setData(undefined);
-			setIsError(true);
-			setError(error as Error);
-		}
-	}, [url]);
+		},
+		[url]
+	);
 
 	useEffect(() => {
 		fetchData();
 	}, [fetchData]);
 
-	return {
-		data,
-		isLoading,
-		isError,
-		error,
-		refetch: fetchData,
-	};
+	return state;
 };
 
 export default useFetch;
