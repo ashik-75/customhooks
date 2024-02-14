@@ -4,7 +4,7 @@ import { format } from "date-fns";
 const Location = () => {
 	const { coords, error } = useLocation({
 		enableHighAccuracy: false,
-		maximumAge: 0,
+		maximumAge: 1000,
 		timeout: 1000,
 	});
 
