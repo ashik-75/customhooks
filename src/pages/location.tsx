@@ -17,7 +17,7 @@ const Location = () => {
 		? `${(coords.speed / 3.6).toFixed(2)} m/s`
 		: "None";
 	const headingInDegree = coords.heading
-		? `${((coords.heading * 180) / Math.PI).toFixed(2)}°`
+		? `${((coords.heading * (180 / Math.PI)) % 360).toFixed(2)}°`
 		: "None";
 	return (
 		<div className="h-full flex items-center justify-center">
