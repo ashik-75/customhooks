@@ -1,25 +1,30 @@
-import { Link, Route, Routes } from "react-router-dom";
-import Home from "./pages/home";
+import { Route, Routes } from "react-router-dom";
 import About from "./pages/about";
 import Contact from "./pages/contact";
+import Navbar from "./components/composite/navbar";
+import Location from "./pages/location";
 
 const App = () => {
 	return (
 		<div className=" h-full ">
-			<div className="space-y-5 font-inter md:container   h-full">
-				<nav className="space-x-5 py-5">
-					<Link to={"/"}>Home</Link>
-					<Link to={"/about"}>About</Link>
-					<Link to={"/contact"}>Contact</Link>
-				</nav>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/about" element={<About />} />
-					<Route path="/contact" element={<Contact />} />
-				</Routes>
+			<div className="font-inter md:container   h-full">
+				<Navbar />
+				<div className="p-5 pt-0 h-[calc(100vh-20vh)]">
+					<AppRoutes />
+				</div>
 			</div>
 		</div>
 	);
 };
 
 export default App;
+
+const AppRoutes = () => {
+	return (
+		<Routes>
+			<Route path="/location" element={<Location />} />
+			<Route path="/about" element={<About />} />
+			<Route path="/contact" element={<Contact />} />
+		</Routes>
+	);
+};
