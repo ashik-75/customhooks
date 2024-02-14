@@ -3,11 +3,19 @@ import { format } from "date-fns";
 
 const Location = () => {
 	const { coords, error } = useLocation({
-		enableHighAccuracy: true,
-		maximumAge: 1000,
-		timeout: 2000,
+		enableHighAccuracy: false,
+		maximumAge: 0,
+		timeout: 1000,
 	});
 
+	console.log("Running...");
+
+	const speedInMetersPerSecond = coords.speed
+		? (coords.speed * 1000) / 3600
+		: "None";
+	const headingInDegree = coords.heading
+		? `${(coords.heading * (180 / Math.PI)).toFixed(2)}°`
+		: "None";
 	if (error) {
 		return <div className="text-orange-400">Something went wrong</div>;
 	}
@@ -31,14 +39,14 @@ const Location = () => {
 					<span className="uppercase font-medium text-sm text-zinc-500">
 						Speed
 					</span>{" "}
-					<span>{coords.speed}</span>
+					<span>{speedInMetersPerSecond}</span>
 				</div>
 
 				<div className="flex justify-between">
 					<span className="uppercase font-medium text-sm text-zinc-500">
 						Headed
 					</span>{" "}
-					<span>{coords.heading}</span>
+					<span>{headingInDegree}</span>
 				</div>
 
 				<div className="flex justify-between">

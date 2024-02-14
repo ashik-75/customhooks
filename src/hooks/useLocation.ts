@@ -65,15 +65,15 @@ const useLocation = (options: LocationOptions): LocationState => {
 			}));
 		};
 
-		// const geoOptions = {
-		// 	enableHighAccuracy: options.enableHighAccuracy || false,
-		// 	timeout: options.timeout || Infinity,
-		// 	maximumAge: options.maximumAge || 0,
-		// };
+		const geoOptions = {
+			enableHighAccuracy: options.enableHighAccuracy || false,
+			timeout: options.timeout || Infinity,
+			maximumAge: options.maximumAge || 0,
+		};
 		const watcher = navigator.geolocation.watchPosition(
 			handleSuccess,
-			handleError
-			// geoOptions
+			handleError,
+			geoOptions
 		);
 
 		return () => {
