@@ -2,17 +2,17 @@ import useLocation from "@/hooks/useLocation";
 import { format } from "date-fns";
 
 const Location = () => {
-	const { coords, error } = useLocation({
-		enableHighAccuracy: false,
+	const { coords } = useLocation({
+		enableHighAccuracy: true,
 		maximumAge: 1000,
 		timeout: 1000,
 	});
 
-	if (error) {
-		return <div className="text-orange-400">Something went wrong</div>;
-	}
+	// if (error) {
+	// 	return <div className="text-orange-400">Something went wrong</div>;
+	// }
 	const speedInMetersPerSecond = coords.speed
-		? (coords.speed / 3.6).toFixed(2)
+		? `${(coords.speed / 3.6).toFixed(2)} m/s`
 		: "None";
 	const headingInDegree = coords.heading
 		? `${(coords.heading * (180 / Math.PI)).toFixed(2)}°`
