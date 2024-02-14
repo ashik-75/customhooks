@@ -13,6 +13,7 @@ const useEventListener = <
 			| HTMLElementEventMap[KH]
 			| MediaQueryListEventMap[KM]
 			| Event
+			| MouseEvent
 	) => void,
 	target?: RefObject<T>,
 	options?: boolean | AddEventListenerOptions
