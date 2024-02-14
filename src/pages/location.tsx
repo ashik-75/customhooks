@@ -1,22 +1,45 @@
 import useLocation from "@/hooks/useLocation";
+import { format } from "date-fns";
 import { Send } from "lucide-react";
 
 const Location = () => {
-	const { coords, locatedAt, error } = useLocation();
+	const { coords, locatedAt, error } = useLocation({
+		enableHighAccuracy: true,
+		maximumAge: 1000,
+		timeout: 2000,
+	});
+
+	if (error) {
+		return <div className="text-orange-400">Something went wrong</div>;
+	}
 	return (
 		<div className="h-full flex items-center justify-center">
-			{error && <div>Something went wrong</div>}
-			<div className="max-w-md p-5 rounded-3xl space-y-1 border-pink-400 border">
-				<h1>latitude: {coords.latitude}</h1>
-				<h1>longitude: {coords.longitude}</h1>
-				<h1>accuracy: {coords.accuracy}</h1>
-				<h1>altitude: {coords.altitude}</h1>
-				<h1>altitudeAccuracy: {coords.altitudeAccuracy}</h1>
-				<h1>heading: {coords.heading}</h1>
-				<h1>speed: {coords.speed}</h1>
+			<div className="w-[350px] p-5 rounded-3xl space-y-1 border-pink-400 border">
+				<div className="flex justify-between">
+					<span className="uppercase font-medium text-sm">latitude</span>{" "}
+					<span>{coords.latitude}</span>
+				</div>
+				<div className="flex justify-between">
+					<span className="uppercase font-medium text-sm">Longitude</span>{" "}
+					<span>{coords.longitude}</span>
+				</div>
+
+				<div className="flex justify-between">
+					<span className="uppercase font-medium text-sm">Speed</span>{" "}
+					<span>{coords.speed}</span>
+				</div>
+
+				<div className="flex justify-between">
+					<span className="uppercase font-medium text-sm">Headed</span>{" "}
+					<span>{coords.heading}</span>
+				</div>
 
 				<div className="flex gap-2">
 					<Send className="text-teal-400" /> <span>{locatedAt}</span>
+				</div>
+				<div className="flex justify-between">
+					<span className="uppercase font-medium text-sm">Updated At</span>{" "}
+					<span>{format(new Date(), "hh:mm:ss aa")}</span>
 				</div>
 			</div>
 		</div>

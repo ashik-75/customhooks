@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 
+type LocationOptions = {
+	enableHighAccuracy?: boolean;
+	timeout?: number;
+	maximumAge?: number;
+};
+
 type LocationState = {
 	coords: {
 		latitude: number | null;
@@ -14,7 +20,7 @@ type LocationState = {
 	error: string | null;
 };
 
-const useLocation = (): LocationState => {
+const useLocation = (options: LocationOptions): LocationState => {
 	const [location, setLocation] = useState<LocationState>({
 		coords: {
 			latitude: null,
@@ -58,15 +64,22 @@ const useLocation = (): LocationState => {
 				error: error.message,
 			}));
 		};
+
+		const geoOptions = {
+			enableHighAccuracy: options.enableHighAccuracy || false,
+			timeout: options.timeout || Infinity,
+			maximumAge: options.maximumAge || 0,
+		};
 		const watcher = navigator.geolocation.watchPosition(
 			handleSuccess,
-			handleError
+			handleError,
+			geoOptions
 		);
 
 		return () => {
 			navigator.geolocation.clearWatch(watcher);
 		};
-	}, []);
+	}, [options.enableHighAccuracy, options.maximumAge, options.timeout]);
 	return location;
 };
 
