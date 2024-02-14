@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import About from "./pages/about";
-import Contact from "./pages/contact";
 import Navbar from "./components/composite/navbar";
 import Location from "./pages/location";
 
@@ -24,7 +23,6 @@ const AppRoutes = () => {
 		<Routes>
 			<Route path="/location" element={<Location />} />
 			<Route path="/about" element={<About />} />
-			<Route path="/contact" element={<Contact />} />
 		</Routes>
 	);
 };
