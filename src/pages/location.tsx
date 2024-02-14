@@ -11,11 +11,13 @@ const Location = () => {
 	// if (error) {
 	// 	return <div className="text-orange-400">Something went wrong</div>;
 	// }
+
+	console.log(coords.heading);
 	const speedInMetersPerSecond = coords.speed
 		? `${(coords.speed / 3.6).toFixed(2)} m/s`
 		: "None";
 	const headingInDegree = coords.heading
-		? `${(coords.heading * (180 / Math.PI)).toFixed(2)}°`
+		? `${((coords.heading * 180) / Math.PI).toFixed(2)}°`
 		: "None";
 	return (
 		<div className="h-full flex items-center justify-center">
