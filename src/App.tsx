@@ -1,14 +1,20 @@
 import { Route, Routes } from "react-router-dom";
-import About from "./pages/about";
 import Navbar from "./components/composite/navbar";
 import Location from "./pages/location";
+import DynamicTextArea from "./pages/dynamic-textarea";
+import Home from "./pages/home";
+import OnlineStatus from "./pages/online-status";
+import DialogPage from "./pages/dialog";
+import NetWork from "./pages/network";
 
 const App = () => {
 	return (
 		<div className=" h-full ">
-			<div className="font-inter md:container   h-full">
-				<Navbar />
-				<div className="p-5 pt-0 h-[calc(100vh-20vh)]">
+			<div className="font-inter grid md:grid-cols-[250px_minmax(0,1fr)]  h-full">
+				<div className="hidden md:block">
+					<Navbar />
+				</div>
+				<div className="p-5 bg-slate-50  relative">
 					<AppRoutes />
 				</div>
 			</div>
@@ -21,8 +27,12 @@ export default App;
 const AppRoutes = () => {
 	return (
 		<Routes>
+			<Route path="/" element={<Home />} />
 			<Route path="/location" element={<Location />} />
-			<Route path="/about" element={<About />} />
+			<Route path="/online-status" element={<OnlineStatus />} />
+			<Route path="/textarea" element={<DynamicTextArea />} />
+			<Route path="/dialog" element={<DialogPage />} />
+			<Route path="/network" element={<NetWork />} />
 		</Routes>
 	);
 };
